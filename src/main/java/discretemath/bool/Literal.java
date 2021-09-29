@@ -1,8 +1,22 @@
 package discretemath.bool;
 
-public interface Literal {
+import discretemath.bool.expression.BooleanExpression;
+import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
 
-	char symbol();
+public interface Literal extends BooleanExpression {
+
+	BooleanVariable variable();
 
 	boolean isPositive();
+
+	@Override
+	default BooleanExpression expressViaOperators(FunctionallyCompleteOperatorsSet operatorsSet) {
+		return this;
+	}
+
+	@Override
+	default BooleanExpression normalize() {
+		return this;
+	}
 }

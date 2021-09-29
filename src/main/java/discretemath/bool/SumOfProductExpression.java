@@ -1,10 +1,12 @@
 package discretemath.bool;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import discretemath.bool.expression.BooleanExpression;
+import discretemath.bool.expression.BooleanVariable;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
 import discretemath.bool.table.TruthTable;
 import discretemath.bool.table.TruthTableRow;
@@ -12,13 +14,13 @@ import discretemath.common.VariableSymbols;
 
 public class SumOfProductExpression implements BooleanExpression {
 
-	private final int variablesCount;
+	private final List<BooleanVariable> variables;
 
 	private final LinkedHashSet<Minterm> minterms;
 
-	private SumOfProductExpression(LinkedHashSet<Minterm> minterms) {
+	private SumOfProductExpression(List<BooleanVariable> variables, LinkedHashSet<Minterm> minterms) {
+		this.variables = variables;
 		this.minterms = minterms;
-		this.variablesCount = minterms.iterator().next().literals().size();
 	}
 
 	public static SumOfProductExpression fromTruthTable(TruthTable truthTable) {
@@ -28,21 +30,36 @@ public class SumOfProductExpression implements BooleanExpression {
 		}
 
 		int variablesCount = truthTable.getVariablesCount();
+
+		List<BooleanVariable> variables = new ArrayList<>(variablesCount);
+		for (Character symbol : VariableSymbols.symbolsFor(variablesCount)) {
+			variables.add(new BooleanVariable(symbol));
+		}
+
 		LinkedHashSet<Minterm> minterms = new LinkedHashSet<>();
 		for (TruthTableRow truthTableRow : truthTable) {
 			if (truthTableRow.getValue(0)) {
-				Iterator<Character> symbols = VariableSymbols.symbolsFor(variablesCount);
+
 				LinkedHashSet<Literal> literals = new LinkedHashSet<>();
 				for (int i = 0; i < truthTableRow.argumentsCount(); i++) {
 					boolean value = truthTableRow.getArgument(i);
-					literals.add(new SimpleLiteral(symbols.next(), value));
+					BooleanVariable variable = variables.get(i);
+					literals.add(new SimpleLiteral(variable, value));
 				}
 
 				minterms.add(new SimpleMinterm(literals));
 			}
 		}
 
-		return new SumOfProductExpression(minterms);
+		return new SumOfProductExpression(variables, minterms);
+	}
+
+	public List<BooleanVariable> getVariables() {
+		return variables;
+	}
+
+	public LinkedHashSet<Minterm> getMinterms() {
+		return minterms;
 	}
 
 	@Override

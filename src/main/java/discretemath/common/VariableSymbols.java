@@ -5,14 +5,14 @@ import java.util.NoSuchElementException;
 
 public class VariableSymbols {
 
-	private static final char[] symbols = {'x', 'y', 'z', 'w'};
+	private static final char[] symbols = {'x', 'y', 'z', 'w', 'a', 'b'};
 
-	public static Iterator<Character> symbolsFor(int count) {
+	public static Iterable<Character> symbolsFor(int count) {
 		if (count > symbols.length) {
 			throw new UnsupportedOperationException(String.valueOf(count));
 		}
 
-		return new Itr(count);
+		return () -> new Itr(count);
 	}
 
 	private static final class Itr implements Iterator<Character> {

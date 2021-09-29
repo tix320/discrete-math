@@ -1,9 +1,10 @@
 package discretemath.samples;
 
+import discretemath.bool.KarnaughMap;
 import discretemath.bool.SumOfProductExpression;
 import discretemath.bool.table.TruthTable;
 
-public class BuildFunctionSumOfProductExpansion {
+public class SOPToKarnaughMap {
 
 	public static void main(String[] args) {
 		TruthTable truthTable = TruthTable.forNDegree(3, 1);
@@ -11,6 +12,8 @@ public class BuildFunctionSumOfProductExpansion {
 
 		SumOfProductExpression sumOfProductExpression = SumOfProductExpression.fromTruthTable(truthTable);
 
-		System.out.println(sumOfProductExpression);
+		KarnaughMap karnaughMap = KarnaughMap.fromSOPExpression(sumOfProductExpression);
+
+		System.out.println(karnaughMap);
 	}
 }
