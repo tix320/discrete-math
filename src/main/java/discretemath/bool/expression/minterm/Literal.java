@@ -1,4 +1,4 @@
-package discretemath.bool;
+package discretemath.bool.expression.minterm;
 
 import discretemath.bool.expression.BooleanExpression;
 import discretemath.bool.expression.BooleanVariable;

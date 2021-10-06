@@ -1,12 +1,13 @@
-package discretemath.bool;
+package discretemath.bool.minimization;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 
-import discretemath.common.BitString;
+import discretemath.bool.BooleanTable;
+import discretemath.bool.SumOfProductExpression;
 import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.minterm.Minterm;
 import discretemath.combination.GrayCode;
+import discretemath.common.BitString;
 
 public final class KarnaughMap {
 
@@ -31,22 +32,9 @@ public final class KarnaughMap {
 		BooleanTable table = buildTableFor(variablesCount);
 
 		for (Minterm minterm : expression.getMinterms()) {
-			LinkedHashSet<Literal> literals = minterm.literals();
-
-
-			Iterator<Literal> literalsIterator = literals.iterator();
-
-			BitString rowBitString = BitString.forN(rowHeaders.getVariablesCount());
-			for (int i = 0; i < rowHeaders.getVariablesCount(); i++) {
-				Literal literal = literalsIterator.next();
-				rowBitString.set(i, literal.isPositive());
-			}
-
-			BitString columnBitString = BitString.forN(columnHeaders.getVariablesCount());
-			for (int i = 0; i < columnHeaders.getVariablesCount(); i++) {
-				Literal literal = literalsIterator.next();
-				columnBitString.set(i, literal.isPositive());
-			}
+			int literalsSize = minterm.literals().size();
+			BitString rowBitString = minterm.subMinterm(0, rowHeaders.getVariablesCount()).toBitString();
+			BitString columnBitString = minterm.subMinterm(rowHeaders.getVariablesCount(), literalsSize).toBitString();
 
 			int row = rowHeaders.find(rowBitString);
 			int column = columnHeaders.find(columnBitString);

@@ -1,32 +1,81 @@
 package discretemath.common;
 
-import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class BitString implements Iterable<Boolean> {
 
-	private final boolean[] bits;
+	private final BitSet bitSet;
 
-	private BitString(boolean[] bits) {
-		this.bits = bits;
+	private final int length;
+
+	private BitString(BitSet bitSet, int length) {
+		this.bitSet = bitSet;
+		this.length = length;
 	}
 
 	public static BitString forN(int n) {
-		boolean[] bits = new boolean[n];
-		return new BitString(bits);
+		return new BitString(new BitSet(n), n);
 	}
 
 	public void set(int index, boolean value) {
-		bits[index] = value;
+		if (index >= length) {
+			throw new IndexOutOfBoundsException(index);
+		}
+
+		bitSet.set(index, value);
 	}
 
 	public boolean get(int index) {
-		return bits[index];
+		if (index >= length) {
+			throw new IndexOutOfBoundsException(index);
+		}
+
+		return bitSet.get(index);
 	}
 
 	public int length() {
-		return bits.length;
+		return length;
+
+	}
+
+	public int bitCount() {
+		return bitSet.cardinality();
+	}
+
+	public long asLong() {
+		if (length > 64) {
+			throw new UnsupportedOperationException();
+		}
+
+		long value = 0L;
+		for (int i = length - 1; i >= 0; i--) {
+			int shiftCount = length - 1 - i;
+			value += bitSet.get(i) ? (1L << shiftCount) : 0L;
+		}
+		return value;
+	}
+
+	public boolean differInOneBit(BitString other) {
+		try {
+			getDifferBitIndex(other);
+			return true;
+		} catch (MoreThanOneBitDifferenceException e) {
+			return false;
+		}
+	}
+
+	public int getDifferBitIndex(BitString other) throws MoreThanOneBitDifferenceException {
+		BitSet clone = (BitSet) this.bitSet.clone();
+		clone.xor(other.bitSet);
+
+		if (clone.cardinality() != 1) {
+			throw new MoreThanOneBitDifferenceException(Integer.toString(clone.cardinality()));
+		}
+
+		return clone.length() - 1;
 	}
 
 	@Override
@@ -39,18 +88,19 @@ public class BitString implements Iterable<Boolean> {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		BitString bitString = (BitString) o;
-		return Arrays.equals(bits, bitString.bits);
+		return length == bitString.length && bitSet.equals(bitString.bitSet);
 	}
 
 	@Override
 	public int hashCode() {
-		return Arrays.hashCode(bits);
+		return Objects.hash(bitSet, length);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		for (boolean bit : bits) {
+		for (int i = 0; i < length; i++) {
+			boolean bit = bitSet.get(i);
 			builder.append(bit ? '1' : '0');
 		}
 
@@ -61,16 +111,15 @@ public class BitString implements Iterable<Boolean> {
 
 		private int index = 0;
 
-
 		@Override
 		public boolean hasNext() {
-			return index < bits.length;
+			return index < length;
 		}
 
 		@Override
 		public Boolean next() {
 			try {
-				return bits[index++];
+				return bitSet.get(index++);
 			} catch (ArrayIndexOutOfBoundsException e) {
 				throw new NoSuchElementException();
 			}

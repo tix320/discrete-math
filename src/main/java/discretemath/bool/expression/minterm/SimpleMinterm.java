@@ -1,10 +1,22 @@
-package discretemath.bool;
+package discretemath.bool.expression.minterm;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public record SimpleMinterm(LinkedHashSet<Literal> literals) implements Minterm {
+public final class SimpleMinterm implements Minterm {
+
+	private final List<Literal> literals;
+
+	public SimpleMinterm(Set<Literal> literals) {
+		this.literals = literals.stream().toList();
+	}
+
+	@Override
+	public List<Literal> literals() {
+		return literals;
+	}
 
 	@Override
 	public boolean equals(Object o) {

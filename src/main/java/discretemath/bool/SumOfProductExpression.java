@@ -7,7 +7,13 @@ import java.util.stream.Collectors;
 
 import discretemath.bool.expression.BooleanExpression;
 import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.minterm.Literal;
+import discretemath.bool.expression.minterm.Minterm;
+import discretemath.bool.expression.minterm.SimpleLiteral;
+import discretemath.bool.expression.minterm.SimpleMinterm;
+import discretemath.bool.minimization.McCluskey;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
+import discretemath.bool.table.FunctionValue;
 import discretemath.bool.table.TruthTable;
 import discretemath.bool.table.TruthTableRow;
 import discretemath.common.VariableSymbols;
@@ -38,7 +44,7 @@ public class SumOfProductExpression implements BooleanExpression {
 
 		LinkedHashSet<Minterm> minterms = new LinkedHashSet<>();
 		for (TruthTableRow truthTableRow : truthTable) {
-			if (truthTableRow.getValue(0)) {
+			if (truthTableRow.getFunctionValue(0) == FunctionValue.TRUE) {
 
 				LinkedHashSet<Literal> literals = new LinkedHashSet<>();
 				for (int i = 0; i < truthTableRow.argumentsCount(); i++) {
@@ -69,7 +75,7 @@ public class SumOfProductExpression implements BooleanExpression {
 
 	@Override
 	public BooleanExpression normalize() {
-		throw new UnsupportedOperationException(); //TODO normalize with McCluskey
+		return new McCluskey().minimizeSOPExpression(this);
 	}
 
 	@Override

@@ -4,21 +4,21 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import discretemath.Matrix;
 import discretemath.bool.BooleanTable;
+import discretemath.bool.expression.exception.InvalidArgumentCountException;
 import discretemath.combination.BitCombinations;
-import discretemath.common.Direction;
+import discretemath.common.BitString;
 
 public class TruthTable implements Iterable<TruthTableRow> {
 
-	private final int variablesCount;
-	private final int functionsCount;
+	private final BooleanTable inputTable;
 
-	private final BooleanTable table;
+	private final Matrix<FunctionValue> functionValuesTable;
 
-	private TruthTable(BooleanTable table, int variablesCount) {
-		this.table = table;
-		this.variablesCount = variablesCount;
-		this.functionsCount = table.columnsCount() - variablesCount;
+	private TruthTable(BooleanTable inputTable, Matrix<FunctionValue> functionValuesTable) {
+		this.inputTable = inputTable;
+		this.functionValuesTable = functionValuesTable;
 	}
 
 	public static TruthTable forNDegree(int n) {
@@ -27,43 +27,47 @@ public class TruthTable implements Iterable<TruthTableRow> {
 
 	public static TruthTable forNDegree(int n, int spaceForFunctions) {
 		int rowsCount = 1 << n;
-		BooleanTable table = BooleanTable.create(rowsCount, n + spaceForFunctions);
+		BooleanTable table = BooleanTable.create(rowsCount, n);
+		Matrix<FunctionValue> functionValueTable = Matrix.create(FunctionValue.class, rowsCount, spaceForFunctions);
 
 		BitCombinations.nBitCombinations(n, table);
 
-		return new TruthTable(table, n);
+		return new TruthTable(table, functionValueTable);
 	}
 
 	public static TruthTable forNDegreeWithAllFunctions(int n) {
 		int rowsCount = 1 << n;
 		int functionsCount = 1 << rowsCount;
-		int columnsCount = n + functionsCount;
-		BooleanTable table = BooleanTable.create(rowsCount, columnsCount);
+		BooleanTable table = BooleanTable.create(rowsCount, n);
+		Matrix<FunctionValue> functionValueTable = Matrix.create(FunctionValue.class, rowsCount, functionsCount);
 
 		BitCombinations.nBitCombinations(n, table);
-		BitCombinations.nBitCombinations(rowsCount, table, 0, n, Direction.FROM_LEFT_TO_RIGHT);
+		//BitCombinations.nBitCombinations(rowsCount, functionValueTable, 0, n, Direction.FROM_LEFT_TO_RIGHT); //TODO
 
-		return new TruthTable(table, n);
+		return new TruthTable(table, functionValueTable);
 	}
 
-	public void setFunctionValue(int functionIndex, int row, boolean value) {
-		table.set(row, variablesCount + functionIndex, value);
+	public void setFunctionValue(int functionIndex, int row, FunctionValue value) {
+		functionValuesTable.set(row, functionIndex, value);
 	}
 
-	public void setFunctionValue(int functionIndex, boolean[] values) {
+	public void setFunctionValue(int functionIndex, FunctionValue[] values) {
+		int functionValuesCount = 1 << getVariablesCount();
+		InvalidArgumentCountException.checkExact(functionValuesCount, values.length);
+
 		for (int i = 0; i < values.length; i++) {
-			boolean value = values[i];
-			table.set(i, variablesCount + functionIndex, value);
+			FunctionValue value = values[i];
+			functionValuesTable.set(i, functionIndex, value);
 		}
 
 	}
 
 	public int getVariablesCount() {
-		return variablesCount;
+		return inputTable.columnsCount();
 	}
 
 	public int getFunctionsCount() {
-		return functionsCount;
+		return functionValuesTable.columnsCount();
 	}
 
 	@Override
@@ -76,21 +80,20 @@ public class TruthTable implements Iterable<TruthTableRow> {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		TruthTable that = (TruthTable) o;
-		return variablesCount == that.variablesCount && functionsCount == that.functionsCount && Objects.equals(table,
-				that.table);
+		return inputTable.equals(that.inputTable) && functionValuesTable.equals(that.functionValuesTable);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(variablesCount, functionsCount, table);
+		return Objects.hash(inputTable, functionValuesTable);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < table.rowsCount(); i++) {
-			for (int j = 0; j < table.columnsCount(); j++) {
-				boolean b = table.get(i, j);
+		for (int i = 0; i < inputTable.rowsCount(); i++) {
+			for (int j = 0; j < inputTable.columnsCount(); j++) {
+				boolean b = inputTable.get(i, j);
 				builder.append(b ? 1 : 0).append("\t");
 			}
 			builder.append("\n");
@@ -105,12 +108,12 @@ public class TruthTable implements Iterable<TruthTableRow> {
 
 		@Override
 		public boolean hasNext() {
-			return rowIndex < table.rowsCount();
+			return rowIndex < inputTable.rowsCount();
 		}
 
 		@Override
 		public TruthTableRow next() {
-			if (rowIndex >= table.rowsCount()) {
+			if (rowIndex >= inputTable.rowsCount()) {
 				throw new NoSuchElementException();
 			}
 
@@ -119,13 +122,29 @@ public class TruthTable implements Iterable<TruthTableRow> {
 
 			return new TruthTableRow() {
 				@Override
+				public int index() {
+					return currentRowIndex;
+				}
+
+				@Override
 				public int argumentsCount() {
-					return variablesCount;
+					return getVariablesCount();
 				}
 
 				@Override
 				public int functionsCount() {
-					return functionsCount;
+					return getFunctionsCount();
+				}
+
+				@Override
+				public BitString getArgumentsBitString() {
+					BitString bitString = BitString.forN(inputTable.columnsCount());
+
+					for (int j = 0; j < inputTable.columnsCount(); j++) {
+						bitString.set(j, inputTable.get(currentRowIndex, j));
+					}
+
+					return bitString;
 				}
 
 				@Override
@@ -134,19 +153,16 @@ public class TruthTable implements Iterable<TruthTableRow> {
 						throw new IndexOutOfBoundsException(index);
 					}
 
-					return table.get(currentRowIndex, index);
+					return inputTable.get(currentRowIndex, index);
 				}
 
 				@Override
-				public boolean getValue(int index) {
+				public FunctionValue getFunctionValue(int index) {
 					if (index > functionsCount()) {
 						throw new IndexOutOfBoundsException(index);
 					}
 
-					index = index + argumentsCount();
-
-
-					return table.get(currentRowIndex, index);
+					return functionValuesTable.get(currentRowIndex, index);
 				}
 			};
 		}

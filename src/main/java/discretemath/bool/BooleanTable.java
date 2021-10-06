@@ -1,5 +1,6 @@
 package discretemath.bool;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public final class BooleanTable {
@@ -69,5 +70,18 @@ public final class BooleanTable {
 
 	public void set(int i, int j, boolean value) {
 		table[i][j] = value;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		BooleanTable that = (BooleanTable) o;
+		return Arrays.deepEquals(table, that.table);
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.deepHashCode(table);
 	}
 }
