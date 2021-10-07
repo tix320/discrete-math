@@ -29,6 +29,18 @@ public record OperatorNode(Operator operator, ExpressionTreeNode... operands) im
 		return new OperatorNode(NOR, operand1, operand2);
 	}
 
+	public static OperatorNode forXOR(ExpressionTreeNode operand1, ExpressionTreeNode operand2) {
+		return new OperatorNode(XOR, operand1, operand2);
+	}
+
+	public static OperatorNode forConditional(ExpressionTreeNode hypothesis, ExpressionTreeNode conclusion) {
+		return new OperatorNode(CONDITIONAL, hypothesis, conclusion);
+	}
+
+	public static OperatorNode forBiConditional(ExpressionTreeNode operand1, ExpressionTreeNode operand2) {
+		return new OperatorNode(BICONDITIONAL, operand1, operand2);
+	}
+
 	@Override
 	public int getHeight() {
 		return 1 + Arrays.stream(operands()).mapToInt(ExpressionTreeNode::getHeight).max().orElse(0);

@@ -1,7 +1,7 @@
 package discretemath.bool.operator;
 
-import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.BooleanExpression;
+import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.compound.CompoundBooleanExpression;
 import discretemath.bool.expression.compound.ExpressionTreeNode;
 import discretemath.bool.expression.compound.OperatorNode;
@@ -243,6 +243,106 @@ public enum Operators implements Operator {
 			InvalidArgumentCountException.checkExact(2, operands.length);
 
 			return OperatorsStringUtils.buildNAryOperatorString(" ↓ ", operands);
+		}
+	}, XOR {
+		@Override
+		public boolean evaluate(boolean... values) {
+			InvalidArgumentCountException.checkGTE(0, values.length);
+
+			boolean result = values[0];
+
+			for (int i = 1; i < values.length; i++) {
+				boolean value = values[i];
+				result = result ^ value;
+			}
+
+			return result;
+		}
+
+		@Override
+		public BooleanExpression applyTo(BooleanExpression... operands) {
+			InvalidArgumentCountException.checkExact(2, operands.length);
+
+			ExpressionTreeNode firstExpressionRootNode = ExpressionTreeNode.fromBooleanExpression(operands[0]);
+			ExpressionTreeNode secondExpressionRootNode = ExpressionTreeNode.fromBooleanExpression(operands[1]);
+
+			return new CompoundBooleanExpression(
+					OperatorNode.forXOR(firstExpressionRootNode, secondExpressionRootNode));
+		}
+
+		@Override
+		public BooleanExpression applyUsing(FunctionallyCompleteOperatorsSet operatorsSet,
+											BooleanExpression... operands) throws InvalidArgumentCountException, UnsupportedOperationException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String toString(BooleanExpression... operands) throws InvalidArgumentCountException {
+			InvalidArgumentCountException.checkExact(2, operands.length);
+
+			return OperatorsStringUtils.buildNAryOperatorString(" ⊕ ", operands);
+		}
+	}, CONDITIONAL {
+		@Override
+		public boolean evaluate(boolean... values) {
+			InvalidArgumentCountException.checkExact(2, values.length);
+
+			return !values[0] || values[1];
+		}
+
+		@Override
+		public BooleanExpression applyTo(BooleanExpression... operands) {
+			InvalidArgumentCountException.checkExact(2, operands.length);
+
+			ExpressionTreeNode firstExpressionRootNode = ExpressionTreeNode.fromBooleanExpression(operands[0]);
+			ExpressionTreeNode secondExpressionRootNode = ExpressionTreeNode.fromBooleanExpression(operands[1]);
+
+			return new CompoundBooleanExpression(
+					OperatorNode.forConditional(firstExpressionRootNode, secondExpressionRootNode));
+		}
+
+		@Override
+		public BooleanExpression applyUsing(FunctionallyCompleteOperatorsSet operatorsSet,
+											BooleanExpression... operands) throws InvalidArgumentCountException, UnsupportedOperationException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String toString(BooleanExpression... operands) throws InvalidArgumentCountException {
+			InvalidArgumentCountException.checkExact(2, operands.length);
+
+			return OperatorsStringUtils.buildNAryOperatorString(" → ", operands);
+		}
+	}, BICONDITIONAL {
+		@Override
+		public boolean evaluate(boolean... values) {
+			InvalidArgumentCountException.checkExact(2, values.length);
+
+			return values[0] == values[1];
+		}
+
+		@Override
+		public BooleanExpression applyTo(BooleanExpression... operands) {
+			InvalidArgumentCountException.checkExact(2, operands.length);
+
+			ExpressionTreeNode firstExpressionRootNode = ExpressionTreeNode.fromBooleanExpression(operands[0]);
+			ExpressionTreeNode secondExpressionRootNode = ExpressionTreeNode.fromBooleanExpression(operands[1]);
+
+			return new CompoundBooleanExpression(
+					OperatorNode.forBiConditional(firstExpressionRootNode, secondExpressionRootNode));
+		}
+
+		@Override
+		public BooleanExpression applyUsing(FunctionallyCompleteOperatorsSet operatorsSet,
+											BooleanExpression... operands) throws InvalidArgumentCountException, UnsupportedOperationException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String toString(BooleanExpression... operands) throws InvalidArgumentCountException {
+			InvalidArgumentCountException.checkExact(2, operands.length);
+
+			return OperatorsStringUtils.buildNAryOperatorString(" ⟷ ", operands);
 		}
 	};
 
