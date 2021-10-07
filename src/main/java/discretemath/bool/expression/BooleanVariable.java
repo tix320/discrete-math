@@ -1,10 +1,12 @@
 package discretemath.bool.expression;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 import discretemath.common.VariableSymbols;
 
 public final class BooleanVariable implements AtomicBooleanExpression {
@@ -13,6 +15,17 @@ public final class BooleanVariable implements AtomicBooleanExpression {
 
 	public BooleanVariable(char symbol) {
 		this.symbol = symbol;
+	}
+
+	@Override
+	public boolean evaluate(Map<BooleanVariable, Boolean> arguments) throws VariableValueNotSpecifiedException {
+		Boolean value = arguments.get(this);
+
+		if (value == null) {
+			throw new VariableValueNotSpecifiedException(this);
+		}
+
+		return value;
 	}
 
 	@Override

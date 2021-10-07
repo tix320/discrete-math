@@ -5,7 +5,9 @@ import discretemath.bool.expression.exception.InvalidArgumentCountException;
 
 public interface Operator {
 
-	BooleanExpression applyTo(BooleanExpression... operands);
+	boolean evaluate(boolean... values);
+
+	BooleanExpression applyTo(BooleanExpression... operands) throws InvalidArgumentCountException;
 
 	BooleanExpression applyUsing(FunctionallyCompleteOperatorsSet operatorsSet,
 								 BooleanExpression... operands) throws InvalidArgumentCountException, UnsupportedOperationException;

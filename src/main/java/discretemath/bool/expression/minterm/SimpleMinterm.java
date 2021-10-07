@@ -1,9 +1,14 @@
 package discretemath.bool.expression.minterm;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
+import discretemath.bool.operator.Operators;
 
 public final class SimpleMinterm implements Minterm {
 
@@ -16,6 +21,18 @@ public final class SimpleMinterm implements Minterm {
 	@Override
 	public List<Literal> literals() {
 		return literals;
+	}
+
+	@Override
+	public boolean evaluate(Map<BooleanVariable, Boolean> arguments) throws VariableValueNotSpecifiedException {
+		boolean[] values = new boolean[literals.size()];
+		for (int i = 0; i < literals.size(); i++) {
+			Literal literal = literals.get(i);
+
+			values[i] = literal.evaluate(arguments);
+		}
+
+		return Operators.AND.evaluate(values);
 	}
 
 	@Override

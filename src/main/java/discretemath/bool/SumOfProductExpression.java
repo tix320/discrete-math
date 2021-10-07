@@ -1,18 +1,18 @@
 package discretemath.bool;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import discretemath.bool.expression.BooleanExpression;
 import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 import discretemath.bool.expression.minterm.Literal;
 import discretemath.bool.expression.minterm.Minterm;
 import discretemath.bool.expression.minterm.SimpleLiteral;
 import discretemath.bool.expression.minterm.SimpleMinterm;
 import discretemath.bool.minimization.McCluskey;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
+import discretemath.bool.operator.Operators;
 import discretemath.bool.table.FunctionValue;
 import discretemath.bool.table.TruthTable;
 import discretemath.bool.table.TruthTableRow;
@@ -66,6 +66,21 @@ public class SumOfProductExpression implements BooleanExpression {
 
 	public LinkedHashSet<Minterm> getMinterms() {
 		return minterms;
+	}
+
+	@Override
+	public boolean evaluate(Map<BooleanVariable, Boolean> arguments) throws VariableValueNotSpecifiedException {
+		boolean[] values = new boolean[minterms.size()];
+
+		Iterator<Minterm> mintermIterator = minterms.iterator();
+
+		for (int i = 0; i < minterms.size(); i++) {
+			Minterm minterm = mintermIterator.next();
+
+			values[i] = minterm.evaluate(arguments);
+		}
+
+		return Operators.OR.evaluate(values);
 	}
 
 	@Override
