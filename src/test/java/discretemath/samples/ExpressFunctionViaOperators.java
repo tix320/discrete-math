@@ -4,6 +4,7 @@ import discretemath.bool.expression.*;
 import discretemath.bool.expression.compound.CompoundBooleanExpression;
 import discretemath.bool.expression.compound.OperatorNode;
 import discretemath.bool.expression.compound.ValueNode;
+import discretemath.bool.expression.atomic.BooleanVariable;
 
 import static discretemath.bool.operator.FunctionallyCompleteOperatorsSet.*;
 

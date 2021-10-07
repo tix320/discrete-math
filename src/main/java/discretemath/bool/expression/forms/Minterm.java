@@ -1,4 +1,4 @@
-package discretemath.bool.expression.minterm;
+package discretemath.bool.expression.forms;
 
 import java.util.Iterator;
 import java.util.List;

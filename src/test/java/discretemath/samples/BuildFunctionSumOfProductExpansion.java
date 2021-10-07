@@ -1,6 +1,6 @@
 package discretemath.samples;
 
-import discretemath.bool.SumOfProductExpression;
+import discretemath.bool.expression.forms.SumOfProductExpression;
 import discretemath.bool.table.FunctionValue;
 import discretemath.bool.table.TruthTable;
 

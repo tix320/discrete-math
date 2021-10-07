@@ -1,13 +1,9 @@
-package discretemath.bool.expression;
+package discretemath.bool.expression.atomic;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
-import discretemath.common.VariableSymbols;
 
 public final class BooleanVariable implements AtomicBooleanExpression {
 
@@ -44,11 +40,5 @@ public final class BooleanVariable implements AtomicBooleanExpression {
 	@Override
 	public String toString() {
 		return String.valueOf(symbol);
-	}
-
-	public static List<BooleanVariable> getVariables(int variablesCount) {
-		return StreamSupport.stream(VariableSymbols.symbolsFor(variablesCount).spliterator(), false)
-				.map(BooleanVariable::new)
-				.collect(Collectors.toList());
 	}
 }

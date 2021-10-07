@@ -1,9 +1,9 @@
-package discretemath.bool.expression.minterm;
+package discretemath.bool.expression.forms;
 
 import java.util.List;
 import java.util.Map;
 
-import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 import discretemath.bool.operator.Operators;
 

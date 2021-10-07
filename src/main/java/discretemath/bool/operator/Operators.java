@@ -1,6 +1,6 @@
 package discretemath.bool.operator;
 
-import discretemath.bool.expression.AtomicBooleanExpression;
+import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.BooleanExpression;
 import discretemath.bool.expression.compound.CompoundBooleanExpression;
 import discretemath.bool.expression.compound.ExpressionTreeNode;

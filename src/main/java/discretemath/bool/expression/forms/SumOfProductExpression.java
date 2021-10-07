@@ -1,22 +1,18 @@
-package discretemath.bool;
+package discretemath.bool.expression.forms;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import discretemath.bool.expression.BooleanExpression;
-import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
-import discretemath.bool.expression.minterm.Literal;
-import discretemath.bool.expression.minterm.Minterm;
-import discretemath.bool.expression.minterm.SimpleLiteral;
-import discretemath.bool.expression.minterm.SimpleMinterm;
+import discretemath.bool.expression.atomic.BooleanVariables;
 import discretemath.bool.minimization.McCluskey;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
 import discretemath.bool.operator.Operators;
 import discretemath.bool.table.FunctionValue;
 import discretemath.bool.table.TruthTable;
 import discretemath.bool.table.TruthTableRow;
-import discretemath.common.VariableSymbols;
 
 public class SumOfProductExpression implements BooleanExpression {
 
@@ -37,10 +33,7 @@ public class SumOfProductExpression implements BooleanExpression {
 
 		int variablesCount = truthTable.getVariablesCount();
 
-		List<BooleanVariable> variables = new ArrayList<>(variablesCount);
-		for (Character symbol : VariableSymbols.symbolsFor(variablesCount)) {
-			variables.add(new BooleanVariable(symbol));
-		}
+		List<BooleanVariable> variables = BooleanVariables.getVariables(variablesCount);
 
 		LinkedHashSet<Minterm> minterms = new LinkedHashSet<>();
 		for (TruthTableRow truthTableRow : truthTable) {

@@ -1,18 +1,17 @@
-package discretemath.bool.expression.minterm;
+package discretemath.bool.expression.forms;
+
+import java.util.List;
 
 import discretemath.bool.expression.BooleanExpression;
-import discretemath.bool.expression.BooleanVariable;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
 
-public interface Literal extends BooleanExpression {
+public interface Maxterm extends BooleanExpression {
 
-	BooleanVariable variable();
-
-	boolean isPositive();
+	List<Literal> literals();
 
 	@Override
 	default BooleanExpression expressViaOperators(FunctionallyCompleteOperatorsSet operatorsSet) {
-		return this;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	@Override
@@ -20,3 +19,4 @@ public interface Literal extends BooleanExpression {
 		return this;
 	}
 }
+

@@ -3,7 +3,8 @@ package discretemath.bool.minimization;
 import java.util.List;
 
 import discretemath.bool.expression.BooleanExpression;
-import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariables;
 import discretemath.bool.table.FunctionValue;
 import discretemath.bool.table.TruthTable;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class McCluskeyTest {
 														   DONT_CARE,
 														   TRUE});
 
-		List<BooleanVariable> variables = BooleanVariable.getVariables(variablesCount);
+		List<BooleanVariable> variables = BooleanVariables.getVariables(variablesCount);
 
 		McCluskey mcCluskey = new McCluskey();
 
@@ -64,7 +65,7 @@ class McCluskeyTest {
 														   TRUE,
 														   FALSE});
 
-		List<BooleanVariable> variables = BooleanVariable.getVariables(variablesCount);
+		List<BooleanVariable> variables = BooleanVariables.getVariables(variablesCount);
 
 		McCluskey mcCluskey = new McCluskey();
 
@@ -94,7 +95,7 @@ class McCluskeyTest {
 														   TRUE,
 														   FALSE});
 
-		List<BooleanVariable> variables = BooleanVariable.getVariables(variablesCount);
+		List<BooleanVariable> variables = BooleanVariables.getVariables(variablesCount);
 
 		McCluskey mcCluskey = new McCluskey();
 
@@ -140,7 +141,7 @@ class McCluskeyTest {
 														   DONT_CARE,
 														   DONT_CARE});
 
-		List<BooleanVariable> variables = BooleanVariable.getVariables(variablesCount);
+		List<BooleanVariable> variables = BooleanVariables.getVariables(variablesCount);
 
 		McCluskey mcCluskey = new McCluskey();
 

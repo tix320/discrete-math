@@ -7,7 +7,7 @@ public class VariableSymbols {
 
 	private static final char[] symbols = {'x', 'y', 'z', 'w', 'a', 'b'};
 
-	public static Iterable<Character> symbolsFor(int count) {
+	public static Iterable<Character> getIterator(int count) {
 		if (count > symbols.length) {
 			throw new UnsupportedOperationException(String.valueOf(count));
 		}

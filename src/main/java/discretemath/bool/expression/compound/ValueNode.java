@@ -1,6 +1,6 @@
 package discretemath.bool.expression.compound;
 
-import discretemath.bool.expression.AtomicBooleanExpression;
+import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 
 public record ValueNode(AtomicBooleanExpression expression) implements ExpressionTreeNode {
 

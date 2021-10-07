@@ -1,9 +1,14 @@
-package discretemath.bool.expression;
+package discretemath.bool.expression.forms;
 
+import discretemath.bool.expression.BooleanExpression;
+import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
 
-public sealed interface AtomicBooleanExpression extends BooleanExpression
-		permits BooleanVariable, ConstantBooleanValue {
+public interface Literal extends BooleanExpression {
+
+	BooleanVariable variable();
+
+	boolean isPositive();
 
 	@Override
 	default BooleanExpression expressViaOperators(FunctionallyCompleteOperatorsSet operatorsSet) {

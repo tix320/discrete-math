@@ -3,7 +3,8 @@ package discretemath.samples;
 import java.util.List;
 
 import discretemath.bool.expression.BooleanExpression;
-import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariables;
 import discretemath.bool.minimization.McCluskey;
 import discretemath.bool.table.FunctionValue;
 import discretemath.bool.table.TruthTable;
@@ -32,7 +33,7 @@ public class McCluskeyExample {
 														   DONT_CARE,
 														   TRUE});
 
-		List<BooleanVariable> variables = BooleanVariable.getVariables(variablesCount);
+		List<BooleanVariable> variables = BooleanVariables.getVariables(variablesCount);
 
 		McCluskey mcCluskey = new McCluskey();
 

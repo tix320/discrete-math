@@ -1,8 +1,8 @@
-package discretemath.bool.expression.minterm;
+package discretemath.bool.expression.forms;
 
 import java.util.Map;
 
-import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 
 public record SimpleLiteral(BooleanVariable variable, boolean isPositive) implements Literal {

@@ -1,4 +1,4 @@
-package discretemath.bool.expression;
+package discretemath.bool.expression.atomic;
 
 import java.util.Map;
 import java.util.Objects;

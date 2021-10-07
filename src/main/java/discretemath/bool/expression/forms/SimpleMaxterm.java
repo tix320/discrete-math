@@ -1,4 +1,4 @@
-package discretemath.bool.expression.minterm;
+package discretemath.bool.expression.forms;
 
 import java.util.List;
 import java.util.Map;
@@ -6,15 +6,15 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 import discretemath.bool.operator.Operators;
 
-public final class SimpleMinterm implements Minterm {
+public class SimpleMaxterm implements Maxterm {
 
 	private final List<Literal> literals;
 
-	public SimpleMinterm(Set<Literal> literals) {
+	public SimpleMaxterm(Set<Literal> literals) {
 		this.literals = literals.stream().toList();
 	}
 
@@ -32,14 +32,14 @@ public final class SimpleMinterm implements Minterm {
 			values[i] = literal.evaluate(arguments);
 		}
 
-		return Operators.AND.evaluate(values);
+		return Operators.OR.evaluate(values);
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		SimpleMinterm that = (SimpleMinterm) o;
+		SimpleMaxterm that = (SimpleMaxterm) o;
 		return Objects.equals(literals, that.literals);
 	}
 
@@ -50,6 +50,6 @@ public final class SimpleMinterm implements Minterm {
 
 	@Override
 	public String toString() {
-		return literals.stream().map(Object::toString).collect(Collectors.joining(""));
+		return literals.stream().map(Object::toString).collect(Collectors.joining("+"));
 	}
 }

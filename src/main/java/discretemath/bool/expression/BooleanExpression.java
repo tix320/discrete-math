@@ -3,6 +3,7 @@ package discretemath.bool.expression;
 import java.util.Map;
 
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
+import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
 
 public interface BooleanExpression {

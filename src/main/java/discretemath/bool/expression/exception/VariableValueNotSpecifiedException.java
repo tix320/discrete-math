@@ -1,6 +1,6 @@
 package discretemath.bool.expression.exception;
 
-import discretemath.bool.expression.BooleanVariable;
+import discretemath.bool.expression.atomic.BooleanVariable;
 
 public class VariableValueNotSpecifiedException extends RuntimeException {
 
