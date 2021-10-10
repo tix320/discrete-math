@@ -3,8 +3,8 @@ package discretemath.bool.expression.compound;
 import java.util.Map;
 import java.util.Objects;
 
-import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.BooleanExpression;
+import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;

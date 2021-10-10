@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import discretemath.bool.BooleanTable;
-import discretemath.bool.expression.forms.SumOfProductExpression;
 import discretemath.bool.expression.BooleanExpression;
 import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.expression.compound.CompoundBooleanExpression;
@@ -14,6 +13,7 @@ import discretemath.bool.expression.compound.OperatorNode;
 import discretemath.bool.expression.compound.ValueNode;
 import discretemath.bool.expression.exception.InvalidArgumentCountException;
 import discretemath.bool.expression.forms.Minterm;
+import discretemath.bool.expression.forms.SumOfProductExpression;
 import discretemath.bool.operator.Operators;
 import discretemath.bool.table.FunctionValue;
 import discretemath.bool.table.TruthTable;

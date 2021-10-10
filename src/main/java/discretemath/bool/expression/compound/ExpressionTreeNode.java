@@ -1,7 +1,7 @@
 package discretemath.bool.expression.compound;
 
-import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.BooleanExpression;
+import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 
 public sealed interface ExpressionTreeNode permits OperatorNode, ValueNode {
 

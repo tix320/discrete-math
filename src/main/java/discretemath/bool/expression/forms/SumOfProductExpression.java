@@ -1,12 +1,15 @@
 package discretemath.bool.expression.forms;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import discretemath.bool.expression.BooleanExpression;
 import discretemath.bool.expression.atomic.BooleanVariable;
-import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 import discretemath.bool.expression.atomic.BooleanVariables;
+import discretemath.bool.expression.exception.VariableValueNotSpecifiedException;
 import discretemath.bool.minimization.McCluskey;
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet;
 import discretemath.bool.operator.Operators;

@@ -2,8 +2,8 @@ package discretemath.bool.operator;
 
 import java.util.StringJoiner;
 
-import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.BooleanExpression;
+import discretemath.bool.expression.atomic.AtomicBooleanExpression;
 import discretemath.bool.expression.compound.CompoundBooleanExpression;
 
 import static discretemath.bool.operator.Operators.NOT;

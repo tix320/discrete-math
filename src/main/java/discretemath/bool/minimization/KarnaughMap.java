@@ -3,9 +3,9 @@ package discretemath.bool.minimization;
 import java.util.List;
 
 import discretemath.bool.BooleanTable;
-import discretemath.bool.expression.forms.SumOfProductExpression;
 import discretemath.bool.expression.atomic.BooleanVariable;
 import discretemath.bool.expression.forms.Minterm;
+import discretemath.bool.expression.forms.SumOfProductExpression;
 import discretemath.combination.GrayCode;
 import discretemath.common.BitString;
 

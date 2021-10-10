@@ -4,19 +4,19 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import discretemath.Matrix;
 import discretemath.bool.BooleanTable;
 import discretemath.bool.expression.exception.InvalidArgumentCountException;
 import discretemath.combination.BitCombinations;
 import discretemath.common.BitString;
+import discretemath.structure.matrix.ArrayMatrix;
 
 public class TruthTable implements Iterable<TruthTableRow> {
 
 	private final BooleanTable inputTable;
 
-	private final Matrix<FunctionValue> functionValuesTable;
+	private final ArrayMatrix<FunctionValue> functionValuesTable;
 
-	private TruthTable(BooleanTable inputTable, Matrix<FunctionValue> functionValuesTable) {
+	private TruthTable(BooleanTable inputTable, ArrayMatrix<FunctionValue> functionValuesTable) {
 		this.inputTable = inputTable;
 		this.functionValuesTable = functionValuesTable;
 	}
@@ -28,7 +28,8 @@ public class TruthTable implements Iterable<TruthTableRow> {
 	public static TruthTable forNDegree(int n, int spaceForFunctions) {
 		int rowsCount = 1 << n;
 		BooleanTable table = BooleanTable.create(rowsCount, n);
-		Matrix<FunctionValue> functionValueTable = Matrix.create(FunctionValue.class, rowsCount, spaceForFunctions);
+		ArrayMatrix<FunctionValue> functionValueTable = ArrayMatrix.create(FunctionValue.class, rowsCount,
+				spaceForFunctions);
 
 		BitCombinations.nBitCombinations(n, table);
 
@@ -39,7 +40,8 @@ public class TruthTable implements Iterable<TruthTableRow> {
 		int rowsCount = 1 << n;
 		int functionsCount = 1 << rowsCount;
 		BooleanTable table = BooleanTable.create(rowsCount, n);
-		Matrix<FunctionValue> functionValueTable = Matrix.create(FunctionValue.class, rowsCount, functionsCount);
+		ArrayMatrix<FunctionValue> functionValueTable = ArrayMatrix.create(FunctionValue.class, rowsCount,
+				functionsCount);
 
 		BitCombinations.nBitCombinations(n, table);
 		//BitCombinations.nBitCombinations(rowsCount, functionValueTable, 0, n, Direction.FROM_LEFT_TO_RIGHT); //TODO
