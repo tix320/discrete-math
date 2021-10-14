@@ -219,7 +219,7 @@ object Operators {
 
       var result = values.head
 
-      for (i <- 1 to values.length) {
+      for (i <- 1 until values.length) {
         val value = values(i)
         result = result ^ value
       }
