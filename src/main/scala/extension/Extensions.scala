@@ -1,5 +1,7 @@
 package extension
 
+import discretemath.common.{Adder, Multiplier}
+
 import scala.collection.mutable.ArrayBuffer
 
 object Extensions {
@@ -19,6 +21,16 @@ object Extensions {
       }
       indexes
     }
+  }
+
+  implicit object IntAdder extends Adder[Int] {
+
+    override def add(item1: Int, item2: Int): Int = item1 + item2
+  }
+
+  implicit object IntMultiplier extends Multiplier[Int] {
+
+    override def multiply(item1: Int, item2: Int): Int = item1 * item2
   }
 
 }

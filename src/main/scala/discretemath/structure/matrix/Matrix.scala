@@ -1,4 +1,8 @@
-package discretemath.structure.matrix;
+package discretemath.structure.matrix
+
+import discretemath.common.{Adder, Multiplier}
+
+import scala.reflect.ClassTag;
 
 trait Matrix[T] {
 
@@ -12,9 +16,7 @@ trait Matrix[T] {
 
   def set(i: Int, j: Int, value: T): Unit
 
-  def add(matrix: Matrix[T]): Matrix[T]
+  def add(matrix: Matrix[T])(implicit adder: Adder[T], tag: ClassTag[T]): Matrix[T]
 
-  def multiply(matrix: Matrix[T]): Matrix[T]
-
-  def transpose: Matrix[T]
+  def multiply(matrix: Matrix[T])(implicit multiplier: Multiplier[T], adder: Adder[T], tag: ClassTag[T]): Matrix[T]
 }
