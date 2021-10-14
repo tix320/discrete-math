@@ -4,7 +4,7 @@ import discretemath.utils.CacheValue
 
 import scala.collection.immutable
 
-class SimpleMultiSet[T] private(val countMap: Map[T, Int]) extends AbstractMultiSet[T] {
+class SimpleMultiSet[T] private(private val countMap: Map[T, Int]) extends AbstractMultiSet[T] {
 
   val cardinality: Int = countMap.values.sum
   private val modeCache = new CacheValue[T]

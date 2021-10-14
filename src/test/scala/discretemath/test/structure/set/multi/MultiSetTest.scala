@@ -16,7 +16,7 @@ class MultiSetTest extends AnyFunSuite {
 
   test("intersect") {
     val set1 = SimpleMultiSet(Map(1 -> 2, 2 -> 3, 4 -> 3, 5 -> 0))
-    val set2 = SimpleMultiSet(Map(1 -> 1, 3 -> 2, 4 -> 2))
+    val set2 = SimpleMultiSet(Map(1 -> 1, 3 -> 2, 4 -> 2, 6 -> 1))
 
     assert(set1.intersectWith(set2) == SimpleMultiSet(Map(1 -> 1, 4 -> 2)))
   }
