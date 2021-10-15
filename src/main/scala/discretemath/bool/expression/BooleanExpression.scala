@@ -20,7 +20,7 @@ trait BooleanExpression {
 
   final def +(expression: BooleanExpression): BooleanExpression = Operators.OR.inject(Seq(this, expression))
 
-  final def ⊕(expression: BooleanExpression): BooleanExpression = Operators.XOR.inject(Seq(this, expression))
+  final def ^(expression: BooleanExpression): BooleanExpression = Operators.XOR.inject(Seq(this, expression))
 
   final def ↑(expression: BooleanExpression): BooleanExpression = Operators.NAND.inject(Seq(this, expression))
 
@@ -30,5 +30,5 @@ trait BooleanExpression {
 
   final def <->(expression: BooleanExpression): BooleanExpression = Operators.BICONDITIONAL.inject(Seq(this, expression))
 
-  final def ~(): BooleanExpression = Operators.NOT.inject(Seq(this))
+  final def unary_~(): BooleanExpression = Operators.NOT.inject(Seq(this))
 }
