@@ -54,7 +54,7 @@ object KarnaughMap {
     val rightVariablesCount = getBitCountForRightSide(n)
     val rowsCount = 1 << leftVariablesCount
     val columnsCount = 1 << rightVariablesCount
-    ArrayMatrix.create(rowsCount, columnsCount)
+    ArrayMatrix(rowsCount, columnsCount)
   }
 
   private def getBitCountForLeftSide(n: Int) = Math.floor(n / 2D).toInt

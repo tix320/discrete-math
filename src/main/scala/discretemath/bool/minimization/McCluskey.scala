@@ -105,7 +105,7 @@ object McCluskey {
         }
       }
     }
-    val primeImplicantsChart: Matrix[Boolean] = ArrayMatrix.create(primeImplicants.size, mintermNumbers.size)
+    val primeImplicantsChart: Matrix[Boolean] = ArrayMatrix(primeImplicants.size, mintermNumbers.size)
     val mintermNumbersToIndexes = new mutable.HashMap[Long, Int]
     for (i <- mintermNumbers.indices) {
       val mintermNumber = mintermNumbers(i)

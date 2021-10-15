@@ -94,8 +94,8 @@ object TruthTable {
 
   def forNDegree(n: Int, spaceForFunctions: Int): TruthTable = {
     val rowsCount = 1 << n
-    val table: Matrix[Boolean] = ArrayMatrix.create(rowsCount, n)
-    val functionValueTable: Matrix[FunctionValue] = ArrayMatrix.create(rowsCount, spaceForFunctions)
+    val table: Matrix[Boolean] = ArrayMatrix(rowsCount, n)
+    val functionValueTable: Matrix[FunctionValue] = ArrayMatrix(rowsCount, spaceForFunctions)
     BitCombinations.nBitCombinations(n, table)
     new TruthTable(table, functionValueTable)
   }
@@ -108,5 +108,23 @@ object TruthTable {
       tableFillDirection = Direction.FROM_LEFT_TO_RIGHT, transformer = value => if (value) TRUE else FALSE);
 
     return truthTable
+  }
+
+  def apply(matrix: Matrix[Int]): TruthTable = {
+    val booleanTable: Matrix[Boolean] = ArrayMatrix(matrix.rowsCount, matrix.columnsCount)
+
+    for (i <- 0 until matrix.rowsCount) {
+      for (j <- 0 until matrix.columnsCount) {
+        val value = matrix.get(i, j)
+
+        value match {
+          case 0 => booleanTable.set(i, j, false)
+          case 1 => booleanTable.set(i, j, true)
+          case _ => throw new IllegalArgumentException(s"Illegal value in table: $value")
+        }
+      }
+    }
+
+    return new TruthTable(booleanTable, ArrayMatrix(0, 0))
   }
 }

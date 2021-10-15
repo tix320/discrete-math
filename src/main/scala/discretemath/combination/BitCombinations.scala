@@ -8,7 +8,7 @@ object BitCombinations {
 
   def nBitCombinations(n: Int): Matrix[Boolean] = {
     val rowsCount = 1 << n
-    val table: Matrix[Boolean] = ArrayMatrix.create(rowsCount, n)
+    val table: Matrix[Boolean] = ArrayMatrix(rowsCount, n)
     nBitCombinations(n, table, 0, 0, Direction.FROM_UP_TO_DOWN, identity)
     table
   }

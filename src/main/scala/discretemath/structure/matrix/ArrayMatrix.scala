@@ -6,10 +6,10 @@ import java.util
 import java.util.Objects
 import scala.reflect.ClassTag
 
-case class ArrayMatrix[T] private(table: Array[Array[T]]) extends Matrix[T] {
+class ArrayMatrix[T] private(val table: Array[Array[T]]) extends Matrix[T] with Equals {
   override def rowsCount: Int = table.length
 
-  override def columnsCount: Int = table(0).length
+  override def columnsCount: Int = if (table.length == 0) 0 else table(0).length
 
   override def get(i: Int, j: Int): T = table(i)(j)
 
@@ -21,7 +21,7 @@ case class ArrayMatrix[T] private(table: Array[Array[T]]) extends Matrix[T] {
     assert(this.rowsCount == matrix.rowsCount)
     assert(this.columnsCount == matrix.columnsCount)
 
-    val resultMatrix: ArrayMatrix[T] = ArrayMatrix.create(rowsCount, matrix.columnsCount)
+    val resultMatrix: ArrayMatrix[T] = ArrayMatrix(rowsCount, matrix.columnsCount)
 
     for (i <- 0 until rowsCount) {
       for (j <- 0 until matrix.columnsCount) {
@@ -36,7 +36,7 @@ case class ArrayMatrix[T] private(table: Array[Array[T]]) extends Matrix[T] {
   override def multiply(matrix: Matrix[T])(implicit multiplier: Multiplier[T], adder: Adder[T], tag: ClassTag[T]): Matrix[T] = {
     assert(this.columnsCount == matrix.rowsCount)
 
-    val resultMatrix: ArrayMatrix[T] = ArrayMatrix.create(rowsCount, matrix.columnsCount)
+    val resultMatrix: ArrayMatrix[T] = ArrayMatrix(rowsCount, matrix.columnsCount)
 
     for (i <- 0 until rowsCount) {
       for (j2 <- 0 until matrix.columnsCount) {
@@ -66,7 +66,8 @@ case class ArrayMatrix[T] private(table: Array[Array[T]]) extends Matrix[T] {
 }
 
 object ArrayMatrix {
-  def from[T](table: Array[Array[T]]): ArrayMatrix[T] = {
+
+  def apply[T](table: Array[Array[T]]): ArrayMatrix[T] = {
     Objects.requireNonNull(table(0), "Matrix table's row must not be null")
     val firstRowLength = table(0).length
     for (row <- table) {
@@ -76,7 +77,7 @@ object ArrayMatrix {
     new ArrayMatrix[T](table)
   }
 
-  def create[T: ClassTag](n: Int, m: Int): ArrayMatrix[T] = {
+  def apply[T: ClassTag](n: Int, m: Int): ArrayMatrix[T] = {
     val table = Array.ofDim[T](n, m)
     new ArrayMatrix[T](table)
   }
