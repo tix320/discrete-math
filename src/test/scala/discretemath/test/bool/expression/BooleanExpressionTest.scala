@@ -1,22 +1,19 @@
 package discretemath.test.bool.expression
 
-import discretemath.bool.expression.atomic.BooleanVariables
+import discretemath.bool.expression.atomic.BooleanVariable.{X, Y}
 import discretemath.bool.expression.compound.{CompoundBooleanExpression, OperatorNode, ValueNode}
-import discretemath.bool.operator.FunctionallyCompleteOperatorsSet.{AND_NOT, OR_NOT, ONLY_NAND, ONLY_NOR}
+import discretemath.bool.operator.FunctionallyCompleteOperatorsSet.{AND_NOT, ONLY_NAND, ONLY_NOR, OR_NOT}
 import discretemath.bool.operator.Operators.OR
-import discretemath.bool.operator._
 import org.scalatest.funsuite.AnyFunSuite
 
 class BooleanExpressionTest extends AnyFunSuite {
 
   test("expressViaOperators") {
-    val x = BooleanVariables.X
-    val y = BooleanVariables.Y
 
-    val node1 = ValueNode(x)
-    val node2 = OperatorNode.not(ValueNode(y))
-    val node3 = ValueNode(y)
-    val node4 = OperatorNode.not(ValueNode(x))
+    val node1 = ValueNode(X)
+    val node2 = OperatorNode.not(ValueNode(Y))
+    val node3 = ValueNode(Y)
+    val node4 = OperatorNode.not(ValueNode(X))
 
     val node5 = OperatorNode * (OR, node1, node2)
     val node6 = OperatorNode.not(node5)

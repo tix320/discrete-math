@@ -29,7 +29,7 @@ class ArrayMatrixTest extends AnyFunSuite {
     assert(matrix1.multiply(matrix2) == productMatrix)
   }
 
-  test("addition"){
+  test("addition") {
     val matrix1: ArrayMatrix[Int] = ArrayMatrix(Array(
       Array(1, 0, 5, 6),
       Array(0, 2, 4, 7),

@@ -1,6 +1,6 @@
 package discretemath.test.bool.expression.forms
 
-import discretemath.bool.expression.atomic.BooleanVariables.{X, Y, Z}
+import discretemath.bool.expression.atomic.BooleanVariable.{X, Y, Z}
 import discretemath.bool.expression.forms.ProductOfSumExpression
 import discretemath.bool.table.{FunctionValue, TruthTable}
 import org.scalatest.funsuite.AnyFunSuite

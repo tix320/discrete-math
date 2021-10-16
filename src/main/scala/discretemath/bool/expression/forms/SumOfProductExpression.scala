@@ -1,7 +1,7 @@
 package discretemath.bool.expression.forms
 
 import discretemath.bool.expression.BooleanExpression
-import discretemath.bool.expression.atomic.{BooleanVariable, BooleanVariables}
+import discretemath.bool.expression.atomic.BooleanVariable
 import discretemath.bool.expression.exception.VariableValueNotSpecifiedException
 import discretemath.bool.minimization.McCluskey
 import discretemath.bool.operator.FunctionallyCompleteOperatorsSet
@@ -29,7 +29,7 @@ class SumOfProductExpression private(val variables: IndexedSeq[BooleanVariable],
 object SumOfProductExpression {
 
   def apply(truthTable: TruthTable): SumOfProductExpression = {
-    val variables = BooleanVariables.getVariables(truthTable.getVariablesCount)
+    val variables = BooleanVariable.getN(truthTable.getVariablesCount)
     return apply(truthTable, variables)
   }
 
