@@ -1,5 +1,7 @@
 package discretemath.structure.set.multi
 
+import discretemath.structure.set.main.Set
+
 object EmptyMultiSet extends AbstractMultiSet[Nothing] {
 
   override def cardinality = 0
@@ -16,7 +18,7 @@ object EmptyMultiSet extends AbstractMultiSet[Nothing] {
 
   override def symmetricDifferenceWith[I <: MultiSet[Nothing], R >: MultiSet[Nothing]](set: I): R = set
 
-  override def cartesianProductWith[P](set: MultiSet[P]): MultiSet[(Nothing, P)] = ???
+  override def cartesianProductWith[P](set: MultiSet[P]): MultiSet[(Nothing, P)] = this.asInstanceOf[MultiSet[(Nothing, P)]]
 
   override def mode: Option[Nothing] = None
 

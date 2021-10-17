@@ -19,6 +19,8 @@ class SimpleSet[T] private(val set: immutable.Set[T]) extends AbstractSet[T] {
 
   override def cartesianProductWith[P](set: Set[P]): Set[(T, P)] = SimpleSet(view.flatMap(x => set.map(y => (x, y))).toSet)
 
+  override def powerSet: Set[Set[T]] = SimpleSet(set.subsets().map(subset => SimpleSet(subset)).toSet).asInstanceOf[Set[Set[T]]]
+
   override def iterator: Iterator[T] = set.iterator
 
   override def toString: String = set.toString

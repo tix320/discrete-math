@@ -23,4 +23,6 @@ class BigDecimalRangeSet(val range: Range[BigDecimal]) extends AbstractSet[BigDe
   override def cartesianProductWith[P](set: Set[P]): Set[(BigDecimal, P)] = ???
 
   override def iterator = throw new UncountableSetException
+
+  override def powerSet: Set[Set[BigDecimal]] = ???
 }

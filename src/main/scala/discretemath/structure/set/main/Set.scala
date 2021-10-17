@@ -8,7 +8,7 @@ import discretemath.structure.set.BaseSet
  */
 trait Set[T] extends BaseSet[T, Set, Set[T]] {
 
-  final def isInfinite: Boolean = cardinality == -1
+  def powerSet: Set[Set[T]]
 
   /**
    * @return -1 when infinity

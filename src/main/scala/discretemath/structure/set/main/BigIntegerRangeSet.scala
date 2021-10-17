@@ -25,4 +25,6 @@ class BigIntegerRangeSet(val range: Range[BigInt]) extends AbstractSet[BigInt] w
   override def cartesianProductWith[P](set: Set[P]): Set[(BigInt, P)] = ???
 
   override def iterator: Iterator[BigInt] = ???
+
+  override def powerSet: Set[Set[BigInt]] = ???
 }

@@ -12,9 +12,11 @@ object EmptySet extends AbstractSet[Nothing] {
 
   override def differenceWith[I <: Set[Nothing], R >: Set[Nothing]](set: I): R = this
 
-  override def symmetricDifferenceWith[I <: Set[Nothing], R >: Set[Nothing]](set: I): R = ???
+  override def symmetricDifferenceWith[I <: Set[Nothing], R >: Set[Nothing]](set: I): R = set
 
-  override def cartesianProductWith[P](set: Set[P]): Set[(Nothing, P)] = ???
+  override def cartesianProductWith[P](set: Set[P]): Set[(Nothing, P)] = this.asInstanceOf[Set[(Nothing, P)]]
 
   override def iterator: Iterator[Nothing] = Iterator.empty
+
+  override def powerSet: Set[Set[Nothing]] = SimpleSet(Set(this))
 }

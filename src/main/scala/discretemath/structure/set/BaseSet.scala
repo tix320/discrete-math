@@ -7,6 +7,8 @@ trait BaseSet[T, CC[_], C] extends Iterable[T] {
    */
   def cardinality: Int
 
+  final def isInfinite: Boolean = cardinality == -1
+
   def contains(item: T): Boolean
 
   def unionWith[I <: C, R >: C](set: I): R
