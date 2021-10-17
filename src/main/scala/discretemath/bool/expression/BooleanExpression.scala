@@ -6,6 +6,8 @@ import discretemath.bool.operator.{FunctionallyCompleteOperatorsSet, Operators}
 
 trait BooleanExpression {
 
+  def getVariables: Set[BooleanVariable]
+
   @throws[VariableValueNotSpecifiedException]
   def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean
 
@@ -13,6 +15,8 @@ trait BooleanExpression {
   def expressViaOperators(operatorsSet: FunctionallyCompleteOperatorsSet): BooleanExpression
 
   def minimize: BooleanExpression
+
+  def isSatisfiable: Boolean
 
   // Building
 

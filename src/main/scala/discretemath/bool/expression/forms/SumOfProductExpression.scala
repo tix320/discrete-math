@@ -12,16 +12,29 @@ import scala.collection.immutable.ListSet
 
 class SumOfProductExpression private(val variables: IndexedSeq[BooleanVariable], val minterms: Set[Minterm]) extends BooleanExpression {
 
+  override def getVariables: Set[BooleanVariable] = minterms.flatMap(_.getVariables)
+
   @throws[VariableValueNotSpecifiedException]
   def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
-    val results = minterms.view.map(_.evaluate(arguments)).toSeq
+    val functionValuesCount = 1 << variables.length
 
-    return OR.evaluate(results)
+    return minterms.size match {
+      case 0 => false
+      case `functionValuesCount` => true
+      case _ => OR.evaluate(minterms.view.map(_.evaluate(arguments)).toSeq)
+    }
   }
 
   def expressViaOperators(operatorsSet: FunctionallyCompleteOperatorsSet): BooleanExpression = OR.injectUsing(operatorsSet, minterms.toSeq)
 
   override def minimize: BooleanExpression = McCluskey.minimizeSOPExpression(this)
+
+  override def isSatisfiable: Boolean = {
+    return minterms.size match {
+      case 0 => false
+      case _ => true
+    }
+  }
 
   override def toString: String = minterms.view.map(_.toString).mkString(" + ")
 }

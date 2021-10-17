@@ -5,10 +5,14 @@ import discretemath.common.VariableSymbols;
 
 case class BooleanVariable(symbol: Char) extends AtomicBooleanExpression {
 
+  override def getVariables: Set[BooleanVariable] = Set(this)
+
   @throws[VariableValueNotSpecifiedException]
   def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
     return arguments.getOrElse(this, throw new VariableValueNotSpecifiedException(this))
   }
+
+  override def isSatisfiable: Boolean = true
 
   override def toString: String = String.valueOf(symbol)
 }

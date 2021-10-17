@@ -11,16 +11,31 @@ import scala.collection.immutable.ListSet
 
 class ProductOfSumExpression private(val variables: Seq[BooleanVariable], val maxterms: ListSet[Maxterm]) extends BooleanExpression {
 
+  override def getVariables: Set[BooleanVariable] = maxterms.flatMap(_.getVariables)
+
   @throws[VariableValueNotSpecifiedException]
   override def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
-    val results: Seq[Boolean] = maxterms.view.map(_.evaluate(arguments)).toSeq
+    val functionValuesCount = 1 << variables.length
 
-    return AND.evaluate(results)
+    return maxterms.size match {
+      case 0 => true
+      case `functionValuesCount` => false
+      case _ => AND.evaluate(maxterms.view.map(_.evaluate(arguments)).toSeq)
+    }
   }
 
   override def expressViaOperators(operatorsSet: FunctionallyCompleteOperatorsSet): BooleanExpression = AND.injectUsing(operatorsSet, maxterms.toSeq)
 
   override def minimize: BooleanExpression = ???
+
+  override def isSatisfiable: Boolean = {
+    val functionValuesCount = 1 << variables.length
+
+    return maxterms.size match {
+      case `functionValuesCount` => false
+      case _ => true
+    }
+  }
 
   override def toString: String = maxterms.view.map(maxterm => "(" + maxterm + ")").mkString("")
 }

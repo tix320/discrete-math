@@ -10,8 +10,10 @@ import scala.collection.immutable.ListSet;
 
 case class Maxterm(literals: ListSet[Literal]) extends BooleanExpression {
 
+  override def getVariables: Set[BooleanVariable] = literals.map(_.variable)
+
   @throws[VariableValueNotSpecifiedException]
-  def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
+  override def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
     val values: Seq[Boolean] = literals.view.map(literal => literal.evaluate(arguments)).toSeq
 
     OR.evaluate(values)
@@ -20,6 +22,8 @@ case class Maxterm(literals: ListSet[Literal]) extends BooleanExpression {
   override def expressViaOperators(operatorsSet: FunctionallyCompleteOperatorsSet): BooleanExpression = OR.injectUsing(operatorsSet, literals.toSeq)
 
   override def minimize: BooleanExpression = this
+
+  override def isSatisfiable: Boolean = true
 
   override def toString: String = literals.view.map(_.toString).mkString("+")
 }

@@ -11,8 +11,10 @@ import scala.collection.immutable.ListSet;
 
 case class Minterm(literals: ListSet[Literal]) extends BooleanExpression {
 
+  override def getVariables: Set[BooleanVariable] = literals.map(_.variable)
+
   @throws[VariableValueNotSpecifiedException]
-  def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
+  override def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
     val values: Seq[Boolean] = literals.view.map(literal => literal.evaluate(arguments)).toSeq
 
     AND.evaluate(values)
@@ -21,6 +23,8 @@ case class Minterm(literals: ListSet[Literal]) extends BooleanExpression {
   override def expressViaOperators(operatorsSet: FunctionallyCompleteOperatorsSet): BooleanExpression = AND.injectUsing(operatorsSet, literals.toSeq)
 
   override def minimize: BooleanExpression = this
+
+  override def isSatisfiable: Boolean = true
 
   override def toString: String = literals.view.map(_.toString).mkString("")
 

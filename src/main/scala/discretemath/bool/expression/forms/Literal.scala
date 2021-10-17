@@ -8,6 +8,8 @@ import discretemath.bool.operator.Operators.NOT;
 
 case class Literal(variable: BooleanVariable, isPositive: Boolean) extends BooleanExpression {
 
+  override def getVariables: Set[BooleanVariable] = Set(variable)
+
   @throws[VariableValueNotSpecifiedException]
   def evaluate(arguments: Map[BooleanVariable, Boolean]): Boolean = {
     val value = arguments.getOrElse(variable, throw new VariableValueNotSpecifiedException(variable))
@@ -24,6 +26,8 @@ case class Literal(variable: BooleanVariable, isPositive: Boolean) extends Boole
   }
 
   override def minimize: BooleanExpression = this
+
+  override def isSatisfiable: Boolean = true
 
   override def toString: String = if (isPositive) variable.toString else "~" + variable.toString
 }
