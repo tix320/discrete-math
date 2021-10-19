@@ -33,4 +33,20 @@ class IntegerRepresentationTest extends AnyFunSuite {
     assert(IntegerRepresentation.toBaseExpansion(-7680, 8) == "-1 ⋅ 8⁴ - 7 ⋅ 8³")
   }
 
+  test("toCantorExpansion") {
+    assert(IntegerRepresentation.toCantorExpansion(0) == "0 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(1) == "1 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(-1) == "-1 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(2) == "1 ⋅ 2!")
+    assert(IntegerRepresentation.toCantorExpansion(-2) == "-1 ⋅ 2!")
+    assert(IntegerRepresentation.toCantorExpansion(3) == "1 ⋅ 2! + 1 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(-3) == "-1 ⋅ 2! - 1 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(5) == "2 ⋅ 2! + 1 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(-5) == "-2 ⋅ 2! - 1 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(10) == "1 ⋅ 3! + 2 ⋅ 2!")
+    assert(IntegerRepresentation.toCantorExpansion(-10) == "-1 ⋅ 3! - 2 ⋅ 2!")
+    assert(IntegerRepresentation.toCantorExpansion(25) == "1 ⋅ 4! + 1 ⋅ 1!")
+    assert(IntegerRepresentation.toCantorExpansion(-30) == "-1 ⋅ 4! - 1 ⋅ 3!")
+  }
+
 }

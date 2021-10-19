@@ -52,4 +52,50 @@ object IntegerRepresentation {
 
     return expansionBuilder.toString()
   }
+
+  def toCantorExpansion(n: Int): String = {
+    if (n == 0) {
+      return "0 ⋅ 1!"
+    }
+
+    val isNegative = n < 0
+
+    val number = if (isNegative) -n else n
+
+    val expansionBuilder = new StringBuilder
+
+    if (isNegative) {
+      expansionBuilder.append("-")
+    }
+
+    var currentFactorial = 1
+
+    var factorialIndex = 1
+    while (currentFactorial <= number) {
+      factorialIndex += 1
+      currentFactorial = currentFactorial * factorialIndex
+    }
+    currentFactorial = currentFactorial / factorialIndex
+    factorialIndex -= 1
+
+    var sum = number
+
+    val appendOperator = if (isNegative) " - " else " + "
+
+    while (factorialIndex > 0) {
+      val aₙ = sum / currentFactorial
+      sum = sum - aₙ * currentFactorial
+
+      if (aₙ != 0) {
+        expansionBuilder.append(aₙ).append(" ⋅ ").append(factorialIndex).append("!").append(appendOperator)
+      }
+
+      currentFactorial /= factorialIndex
+      factorialIndex -= 1
+    }
+
+    expansionBuilder.delete(expansionBuilder.length() - 3, expansionBuilder.length())
+
+    return expansionBuilder.toString()
+  }
 }
