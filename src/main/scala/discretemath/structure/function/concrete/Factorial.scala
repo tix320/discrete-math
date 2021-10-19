@@ -1,11 +1,12 @@
 package discretemath.structure.function.concrete
 
-import discretemath.structure.sequence.{CacheableSequence, RecurrentSequence, Sequence}
+import discretemath.structure.sequence.RecurrentSequence
 import discretemath.structure.set.Sets
 
 import scala.math.BigInt
 
-final class FactorialFunction private() extends RecurrentSequence[BigInt](Sets.Z_PLUS) {
+final class Factorial extends RecurrentSequence[BigInt](Sets.Z_PLUS) {
+
   override def isOnto = false
 
   override def isOneToOne = false
@@ -15,8 +16,4 @@ final class FactorialFunction private() extends RecurrentSequence[BigInt](Sets.Z
 
     getNextRecurrentValue(n - 1) * n
   }
-}
-
-object FactorialFunction {
-  def apply: Sequence[BigInt] = new CacheableSequence[BigInt](new FactorialFunction)
 }
