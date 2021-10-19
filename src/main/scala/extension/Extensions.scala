@@ -1,6 +1,7 @@
 package extension
 
 import discretemath.common.{Adder, Multiplier}
+import discretemath.utils.Characters.EXPONENT_CHARACTERS
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -20,6 +21,30 @@ object Extensions {
         }
       }
       indexes
+    }
+  }
+
+  implicit class IntImprovements(exponent: Int) {
+
+    def toExponentString: String = {
+      var number = exponent
+
+      val digitsCount = if (exponent == 0) 1 else math.log10(number).toInt + 1
+
+      val array = new Array[Char](digitsCount)
+
+      var index = array.length - 1
+      while (number > 0) {
+        val digit = number % 10
+        number = number / 10
+
+        val exponentChar = EXPONENT_CHARACTERS(digit)
+
+        array(index) = exponentChar
+        index -= 1
+      }
+
+      return new String(array)
     }
   }
 

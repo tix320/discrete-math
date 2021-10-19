@@ -1,6 +1,6 @@
 package discretemath.structure.function.concrete
 
-import discretemath.structure.sequence.{CacheableSequence, RecurrentSequence}
+import discretemath.structure.sequence.{CacheableSequence, RecurrentSequence, Sequence}
 import discretemath.structure.set.Sets
 
 import scala.math.BigInt
@@ -18,5 +18,5 @@ final class FactorialFunction private() extends RecurrentSequence[BigInt](Sets.Z
 }
 
 object FactorialFunction {
-  def apply = new CacheableSequence[BigInt](new FactorialFunction)
+  def apply: Sequence[BigInt] = new CacheableSequence[BigInt](new FactorialFunction)
 }
