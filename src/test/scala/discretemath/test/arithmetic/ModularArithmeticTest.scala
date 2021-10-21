@@ -1,6 +1,8 @@
 package discretemath.test.arithmetic
 
 import discretemath.arithmetic.ModularArithmetic
+import discretemath.arithmetic.exception.NotRelativelyPrimeException
+import discretemath.arithmetic.modular.congruence.LinearCongruence
 import org.scalatest.funsuite.AnyFunSuite
 
 class ModularArithmeticTest extends AnyFunSuite {
@@ -152,11 +154,11 @@ class ModularArithmeticTest extends AnyFunSuite {
       ModularArithmetic.inverseModulo(6, 0)
     }
 
-    assertThrows[UnsupportedOperationException] {
+    assertThrows[NotRelativelyPrimeException] {
       assert(ModularArithmetic.inverseModulo(5, 5) == (5, 0, 1))
     }
 
-    assertThrows[UnsupportedOperationException] {
+    assertThrows[NotRelativelyPrimeException] {
       assert(ModularArithmetic.inverseModulo(15, 18) == (3, -1, 1))
     }
 
@@ -169,5 +171,19 @@ class ModularArithmeticTest extends AnyFunSuite {
     assert(ModularArithmetic.inverseModulo(240, 41) == 34)
     assert(ModularArithmetic.inverseModulo(25, 56) == 9)
     assert(ModularArithmetic.inverseModulo(25, 102) == 49)
+  }
+
+  test("solveCongruencesSystem") {
+    assert(ModularArithmetic.solveCongruencesSystem(IndexedSeq(LinearCongruence(2, 3), LinearCongruence(3, 5), LinearCongruence(2, 7))) == 23)
+    assert(ModularArithmetic.solveCongruencesSystem(IndexedSeq(LinearCongruence(5, 3), LinearCongruence(8, 5), LinearCongruence(9, 7))) == 23)
+    assert(ModularArithmetic.solveCongruencesSystem(IndexedSeq(LinearCongruence(2, 3), LinearCongruence(1, 4), LinearCongruence(3, 5))) == 53)
+    assert(ModularArithmetic.solveCongruencesSystem(IndexedSeq(LinearCongruence(1, 2), LinearCongruence(2, 3), LinearCongruence(3, 5), LinearCongruence(4, 11))) == 323)
+
+    assertThrows[NotRelativelyPrimeException] {
+      ModularArithmetic.solveCongruencesSystem(IndexedSeq(LinearCongruence(5, 6), LinearCongruence(3, 10), LinearCongruence(8, 15)))
+    }
+
+    assert(ModularArithmetic.solveCongruencesSystem(IndexedSeq(LinearCongruence(5, 6), LinearCongruence(3, 10), LinearCongruence(8, 15)), notRelativelyPrime = true) == 23)
+    assert(ModularArithmetic.solveCongruencesSystem(IndexedSeq(LinearCongruence(7, 9), LinearCongruence(4, 12), LinearCongruence(16, 21)), notRelativelyPrime = true) == 16)
   }
 }

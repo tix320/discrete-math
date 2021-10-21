@@ -1,5 +1,8 @@
 package discretemath.arithmetic
 
+import discretemath.arithmetic.exception.NotRelativelyPrimeException
+import discretemath.arithmetic.modular.congruence.LinearCongruence
+
 import scala.annotation.tailrec
 
 object ModularArithmetic {
@@ -106,9 +109,38 @@ object ModularArithmetic {
   def inverseModulo(a: Long, m: Long): Long = {
     val (gcd, coff, _) = bezoutCoefficients(a, m)
     if (gcd != 1) {
-      throw new UnsupportedOperationException(s"Arguments must be relatively prime [$a, $m]")
+      throw new NotRelativelyPrimeException(a, m)
     }
 
     return if (coff < 0) coff + m else coff
+  }
+
+  /**
+   * @throws NotRelativelyPrimeException when `notRelativelyPrime` is false and any two of moduli not relatively prime
+   */
+  def solveCongruencesSystem(congruences: IndexedSeq[LinearCongruence], notRelativelyPrime: Boolean = false): Long = {
+
+    val congs = if (notRelativelyPrime) {
+      congruences.view
+        .flatMap(cong => PrimeNumbers.factorsOf(cong.modulus)
+          .map(modulus => LinearCongruence(cong.congruent, modulus).normalize()))
+        .toIndexedSeq.distinct
+    } else {
+      congruences
+    }
+
+    val M = congs.view.map(cong => cong.modulus).product
+
+    var sum = 0L
+    for (i <- congs.indices) {
+      val congruence = congs(i)
+      val congruent = congruence.congruent
+      val bigModulus = M / congruence.modulus
+      val inverse = inverseModulo(bigModulus, congruence.modulus)
+
+      sum += congruent * bigModulus * inverse
+    }
+
+    return sum % M
   }
 }
