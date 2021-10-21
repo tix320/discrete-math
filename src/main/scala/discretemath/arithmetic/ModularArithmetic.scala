@@ -65,4 +65,50 @@ object ModularArithmetic {
     return (m * n) / gcdValue
   }
 
+  def bezoutCoefficients(n: Long, m: Long): (Long, Long, Long) = {
+    assert(m > 0)
+    assert(n > 0)
+
+    if (m == n) {
+      return (m, 0, 1)
+    }
+
+    var (previousReminder, currentReminder) = if (m > n) (m, n) else (n, m)
+
+    var previousLeftCoff = 1L
+    var currentLeftCoff = 0L
+
+    var previousRightCoff = 0L
+    var currentRightCoff = 1L
+
+    while (currentReminder != 0) {
+      val q = previousReminder / currentReminder
+      val nextReminder = previousReminder % currentReminder
+      val nextLeftConf = previousLeftCoff - (q * currentLeftCoff)
+      val nextRightConf = previousRightCoff - (q * currentRightCoff)
+
+      previousReminder = currentReminder
+      previousLeftCoff = currentLeftCoff
+      previousRightCoff = currentRightCoff
+
+      currentReminder = nextReminder
+      currentLeftCoff = nextLeftConf
+      currentRightCoff = nextRightConf
+    }
+
+    if (n > m) {
+      return (previousReminder, previousLeftCoff, previousRightCoff)
+    } else {
+      return (previousReminder, previousRightCoff, previousLeftCoff)
+    }
+  }
+
+  def inverseModulo(a: Long, m: Long): Long = {
+    val (gcd, coff, _) = bezoutCoefficients(a, m)
+    if (gcd != 1) {
+      throw new UnsupportedOperationException(s"Arguments must be relatively prime [$a, $m]")
+    }
+
+    return if (coff < 0) coff + m else coff
+  }
 }
